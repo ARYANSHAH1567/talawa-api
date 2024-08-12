@@ -81,7 +81,6 @@ export const queries = gql`
     getEventAttendee(userId: ID!, eventId: ID!): EventAttendee
 
     getEventInvitesByUserId(userId: ID!): [EventAttendee!]!
-
     getFundById(
       id: ID!
       orderBy: CampaignOrderByInput

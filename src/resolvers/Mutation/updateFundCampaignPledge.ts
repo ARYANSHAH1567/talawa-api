@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 import { Types } from "mongoose";
+=======
+>>>>>>> main
 import {
   FUNDRAISING_CAMPAIGN_PLEDGE_NOT_FOUND_ERROR,
   USER_NOT_FOUND_ERROR,
 } from "../../constants";
 import { errors, requestContext } from "../../libraries";
 import type { InterfaceUser } from "../../models";
+<<<<<<< HEAD
 import { AppUserProfile, User } from "../../models";
+=======
+import { User } from "../../models";
+>>>>>>> main
 import {
   FundraisingCampaignPledge,
   type InterfaceFundraisingCampaignPledges,
@@ -83,6 +90,7 @@ export const updateFundraisingCampaignPledge: MutationResolvers["updateFundraisi
           USER_NOT_FOUND_ERROR.PARAM,
         );
       }
+<<<<<<< HEAD
 
       // Identify all users who were previously part of the pledge and were removed
       const usersRemoved = pledge.users.filter(
@@ -130,6 +138,8 @@ export const updateFundraisingCampaignPledge: MutationResolvers["updateFundraisi
           $addToSet: { pledges: pledge._id, campaigns: pledge.campaign },
         },
       );
+=======
+>>>>>>> main
     }
 
     const updatedPledge = await FundraisingCampaignPledge.findOneAndUpdate(

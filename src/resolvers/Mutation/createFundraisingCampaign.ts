@@ -125,7 +125,11 @@ export const createFundraisingCampaign: MutationResolvers["createFundraisingCamp
       (organizationId) =>
         organizationId?.toString() === currentOrgId?.toString(),
     );
+<<<<<<< HEAD
 
+=======
+    console.log(currentUserIsOrgAdmin);
+>>>>>>> main
     if (
       !currentUserIsOrgAdmin &&
       currentUserAppProfile.isSuperAdmin === false
@@ -136,12 +140,19 @@ export const createFundraisingCampaign: MutationResolvers["createFundraisingCamp
         USER_NOT_AUTHORIZED_ERROR.PARAM,
       );
     }
+<<<<<<< HEAD
 
+=======
+    console.log("here");
+>>>>>>> main
     // Creates a fundraising campaign.
     const campaign = await FundraisingCampaign.create({
       name: args.data.name,
       fundId: args.data.fundId,
+<<<<<<< HEAD
       organizationId: args.data.organizationId,
+=======
+>>>>>>> main
       startDate: args.data.startDate,
       endDate: args.data.endDate,
       fundingGoal: args.data.fundingGoal,

@@ -17,6 +17,7 @@ import { findAppUserProfileCache } from "../../services/AppUserProfileCache/find
 import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
+<<<<<<< HEAD
 /**
  * Removes a user tag from an organization.
  *
@@ -39,6 +40,8 @@ import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
  *
  * @returns The tag that was deleted.
  */
+=======
+>>>>>>> main
 
 export const removeUserTag: MutationResolvers["removeUserTag"] = async (
   _parent,

@@ -30,10 +30,24 @@ import { removeSampleOrganization as removeSampleOrgUtil } from "../../utilities
  */
 export const removeSampleOrganization: MutationResolvers["removeSampleOrganization"] =
   async (_parent, _args, _context) => {
+<<<<<<< HEAD
     // Tries to find the current user in the cache using the user's ID from the context.
     let currentUser: InterfaceUser | null;
     const userFoundInCache = await findUserInCache([_context.userId]);
     currentUser = userFoundInCache[0];
+=======
+    let currentUser: InterfaceUser | null;
+    const userFoundInCache = await findUserInCache([_context.userId]);
+    currentUser = userFoundInCache[0];
+    if (currentUser === null) {
+      currentUser = await User.findOne({
+        _id: _context.userId,
+      }).lean();
+      if (currentUser !== null) {
+        await cacheUsers([currentUser]);
+      }
+    }
+>>>>>>> main
 
     // If the user is not found in the cache, tries to find them in the database.
     if (currentUser === null) {
@@ -55,27 +69,39 @@ export const removeSampleOrganization: MutationResolvers["removeSampleOrganizati
         USER_NOT_FOUND_ERROR.PARAM,
       );
     }
+<<<<<<< HEAD
 
     // Tries to find the current user's app profile in the cache.
+=======
+>>>>>>> main
     let currentUserAppProfile: InterfaceAppUserProfile | null;
     const appUserProfileFoundInCache = await findAppUserProfileCache([
       currentUser.appUserProfileId?.toString(),
     ]);
     currentUserAppProfile = appUserProfileFoundInCache[0];
+<<<<<<< HEAD
 
     // If the app profile is not found in the cache, tries to find it in the database.
+=======
+>>>>>>> main
     if (currentUserAppProfile === null) {
       currentUserAppProfile = await AppUserProfile.findOne({
         userId: currentUser._id,
       }).lean();
+<<<<<<< HEAD
 
       // If the profile is found in the database, it is cached for future requests.
+=======
+>>>>>>> main
       if (currentUserAppProfile !== null) {
         await cacheAppUserProfile([currentUserAppProfile]);
       }
     }
+<<<<<<< HEAD
 
     // If the user's app profile is not found, throws an error indicating the user is unauthorized.
+=======
+>>>>>>> main
     if (!currentUserAppProfile) {
       throw new errors.UnauthorizedError(
         requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
@@ -95,6 +121,25 @@ export const removeSampleOrganization: MutationResolvers["removeSampleOrganizati
         requestContext.translate(ORGANIZATION_NOT_FOUND_ERROR.MESSAGE),
         ORGANIZATION_NOT_FOUND_ERROR.CODE,
         ORGANIZATION_NOT_FOUND_ERROR.PARAM,
+<<<<<<< HEAD
+=======
+      );
+    }
+
+    const currentUserOrgAdmin = currentUserAppProfile.adminFor.some(
+      (org) =>
+        org &&
+        new Types.ObjectId(org.toString()).equals(
+          existingOrganization.documentId,
+        ),
+    );
+
+    if (!currentUserAppProfile.isSuperAdmin && !currentUserOrgAdmin) {
+      throw new errors.UnauthorizedError(
+        requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
+        USER_NOT_AUTHORIZED_ERROR.CODE,
+        USER_NOT_AUTHORIZED_ERROR.PARAM,
+>>>>>>> main
       );
     }
 

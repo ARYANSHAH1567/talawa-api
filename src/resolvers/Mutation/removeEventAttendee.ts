@@ -37,10 +37,24 @@ import { cacheAppUserProfile } from "../../services/AppUserProfileCache/cacheApp
  */
 export const removeEventAttendee: MutationResolvers["removeEventAttendee"] =
   async (_parent, args, context) => {
+<<<<<<< HEAD
     // Tries to find the current user in the cache using the user's ID from the context.
     let currentUser: InterfaceUser | null;
     const userFoundInCache = await findUserInCache([context.userId]);
     currentUser = userFoundInCache[0];
+=======
+    let currentUser: InterfaceUser | null;
+    const userFoundInCache = await findUserInCache([context.userId]);
+    currentUser = userFoundInCache[0];
+    if (currentUser === null) {
+      currentUser = await User.findOne({
+        _id: context.userId,
+      }).lean();
+      if (currentUser !== null) {
+        await cacheUsers([currentUser]);
+      }
+    }
+>>>>>>> main
 
     // If the user is not found in the cache, tries to find them in the database.
     if (currentUser === null) {
@@ -60,6 +74,7 @@ export const removeEventAttendee: MutationResolvers["removeEventAttendee"] =
         requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
         USER_NOT_FOUND_ERROR.CODE,
         USER_NOT_FOUND_ERROR.PARAM,
+<<<<<<< HEAD
       );
     }
 
@@ -92,6 +107,30 @@ export const removeEventAttendee: MutationResolvers["removeEventAttendee"] =
     }
 
     // Tries to find the event in the cache.
+=======
+      );
+    }
+    let currentUserAppProfile: InterfaceAppUserProfile | null;
+    const appUserProfileFoundInCache = await findAppUserProfileCache([
+      currentUser.appUserProfileId?.toString(),
+    ]);
+    currentUserAppProfile = appUserProfileFoundInCache[0];
+    if (currentUserAppProfile === null) {
+      currentUserAppProfile = await AppUserProfile.findOne({
+        userId: currentUser._id,
+      }).lean();
+      if (currentUserAppProfile !== null) {
+        await cacheAppUserProfile([currentUserAppProfile]);
+      }
+    }
+    if (!currentUserAppProfile) {
+      throw new errors.UnauthorizedError(
+        requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
+        USER_NOT_AUTHORIZED_ERROR.CODE,
+        USER_NOT_AUTHORIZED_ERROR.PARAM,
+      );
+    }
+>>>>>>> main
     let currentEvent: InterfaceEvent | null;
     const eventFoundInCache = await findEventsInCache([args.data.eventId]);
     currentEvent = eventFoundInCache[0];
@@ -122,7 +161,10 @@ export const removeEventAttendee: MutationResolvers["removeEventAttendee"] =
       (admin) => admin.toString() === context.userId.toString(),
     );
 
+<<<<<<< HEAD
     // If the user is not an event admin or a super admin, throws an error indicating they are unauthorized.
+=======
+>>>>>>> main
     if (!isUserEventAdmin && currentUserAppProfile.isSuperAdmin === false) {
       throw new errors.UnauthorizedError(
         requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),

@@ -17,6 +17,7 @@ import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
 
+<<<<<<< HEAD
 /**
  * Updates an existing note in the system.
  *
@@ -41,6 +42,8 @@ import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
  * @returns  The updated note.
  */
 
+=======
+>>>>>>> main
 export const updateNote: MutationResolvers["updateNote"] = async (
   _parent,
   args,

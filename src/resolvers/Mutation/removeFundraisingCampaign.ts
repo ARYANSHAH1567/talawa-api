@@ -21,8 +21,11 @@ import { findAppUserProfileCache } from "../../services/AppUserProfileCache/find
 import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
+<<<<<<< HEAD
 import type { InterfaceFundraisingCampaignPledges } from "../../models/FundraisingCampaignPledge";
 import { FundraisingCampaignPledge } from "../../models/FundraisingCampaignPledge";
+=======
+>>>>>>> main
 
 /**
  * This function enables to remove fundraising campaign .
@@ -83,9 +86,13 @@ export const removeFundraisingCampaign: MutationResolvers["removeFundraisingCamp
 
     const campaign = await FundraisingCampaign.findOne({
       _id: args.id,
+<<<<<<< HEAD
     })
       .populate("pledges")
       .lean();
+=======
+    }).lean();
+>>>>>>> main
 
     // Checks whether fundraising campaign exists.
     if (!campaign) {
@@ -126,6 +133,7 @@ export const removeFundraisingCampaign: MutationResolvers["removeFundraisingCamp
         USER_NOT_AUTHORIZED_ERROR.PARAM,
       );
     }
+<<<<<<< HEAD
 
     const pledgesTobeDeleted: Types.ObjectId[] = [];
     for (const pledge of campaign.pledges as InterfaceFundraisingCampaignPledges[]) {
@@ -146,6 +154,8 @@ export const removeFundraisingCampaign: MutationResolvers["removeFundraisingCamp
       _id: { $in: pledgesTobeDeleted },
     });
 
+=======
+>>>>>>> main
     // Deletes the fundraising campaign.
     await FundraisingCampaign.deleteOne({
       _id: args.id,

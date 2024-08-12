@@ -12,6 +12,7 @@ import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
 
+<<<<<<< HEAD
 /**
  * Deletes an advertisement based on the provided advertisement ID.
  *
@@ -37,18 +38,31 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
     currentUser = userFoundInCache[0];
 
     // If the user is not found in the cache, tries to find them in the database.
+=======
+export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
+  async (_parent, args, context) => {
+    let currentUser: InterfaceUser | null;
+    const userFoundInCache = await findUserInCache([context.userId]);
+    currentUser = userFoundInCache[0];
+>>>>>>> main
     if (currentUser === null) {
       currentUser = await User.findOne({
         _id: context.userId,
       }).lean();
+<<<<<<< HEAD
 
       // If the user is found in the database, they are cached for future requests.
+=======
+>>>>>>> main
       if (currentUser !== null) {
         await cacheUsers([currentUser]);
       }
     }
 
+<<<<<<< HEAD
     // If the user is still not found, throws an error indicating the user does not exist.
+=======
+>>>>>>> main
     if (currentUser === null) {
       throw new errors.NotFoundError(
         requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
@@ -56,27 +70,39 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
         USER_NOT_FOUND_ERROR.PARAM,
       );
     }
+<<<<<<< HEAD
 
     // Tries to find the user's profile in the cache.
+=======
+>>>>>>> main
     let currentAppUserProfile: InterfaceAppUserProfile | null;
     const appUserProfileFoundInCache = await findAppUserProfileCache([
       currentUser.appUserProfileId?.toString(),
     ]);
     currentAppUserProfile = appUserProfileFoundInCache[0];
+<<<<<<< HEAD
 
     // If the profile is not found in the cache, tries to find it in the database.
+=======
+>>>>>>> main
     if (currentAppUserProfile === null) {
       currentAppUserProfile = await AppUserProfile.findOne({
         userId: currentUser._id,
       }).lean();
+<<<<<<< HEAD
 
       // If the profile is found in the database, it is cached for future requests.
+=======
+>>>>>>> main
       if (currentAppUserProfile !== null) {
         await cacheAppUserProfile([currentAppUserProfile]);
       }
     }
+<<<<<<< HEAD
 
     // If the user's profile is still not found, throws an error indicating the profile does not exist.
+=======
+>>>>>>> main
     if (!currentAppUserProfile) {
       throw new errors.NotFoundError(
         requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
@@ -85,12 +111,18 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
       );
     }
 
+<<<<<<< HEAD
     // Tries to find the advertisement by its ID.
+=======
+>>>>>>> main
     const existingAdvertisement = await Advertisement.findOne({
       _id: args.id,
     }).lean();
 
+<<<<<<< HEAD
     // If the advertisement is not found, throws an error indicating the advertisement does not exist.
+=======
+>>>>>>> main
     if (!existingAdvertisement) {
       throw new errors.NotFoundError(
         requestContext.translate(ADVERTISEMENT_NOT_FOUND_ERROR.MESSAGE),
@@ -98,6 +130,7 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
         ADVERTISEMENT_NOT_FOUND_ERROR.PARAM,
       );
     }
+<<<<<<< HEAD
 
     // Checks if the user is either a super admin or an admin of the organization that owns the advertisement.
     const userIsOrgAdmin = currentAppUserProfile.adminFor.some(
@@ -105,6 +138,11 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
     );
 
     // If the user is not authorized to delete the advertisement, throws an error.
+=======
+    const userIsOrgAdmin = currentAppUserProfile.adminFor.some(
+      (organization) => organization === existingAdvertisement?.organizationId,
+    );
+>>>>>>> main
     if (!(currentAppUserProfile.isSuperAdmin || userIsOrgAdmin)) {
       throw new errors.UnauthenticatedError(
         requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
@@ -113,12 +151,16 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
       );
     }
 
+<<<<<<< HEAD
     // Prepares the advertisement object for return by including the full media URL and converting the ID to a string.
+=======
+>>>>>>> main
     const advertisement = {
       ...existingAdvertisement,
       mediaUrl: `${context.apiRootUrl}${existingAdvertisement.mediaUrl}`,
       _id: existingAdvertisement._id.toString(),
     };
+<<<<<<< HEAD
 
     console.log(advertisement);
 
@@ -128,5 +170,13 @@ export const deleteAdvertisement: MutationResolvers["deleteAdvertisement"] =
     });
 
     // Returns the details of the deleted advertisement.
+=======
+    console.log(advertisement);
+    // Deletes the ad.
+    await Advertisement.deleteOne({
+      _id: args.id,
+    });
+    // Returns deleted ad.
+>>>>>>> main
     return { advertisement };
   };

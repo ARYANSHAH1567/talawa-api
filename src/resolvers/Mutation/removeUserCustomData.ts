@@ -31,10 +31,24 @@ export const removeUserCustomData: MutationResolvers["removeUserCustomData"] =
   async (_parent, args, context) => {
     const { organizationId } = args;
 
+<<<<<<< HEAD
     // Tries to find the current user in the cache using the user's ID from the context.
     let currentUser: InterfaceUser | null;
     const userFoundInCache = await findUserInCache([context.userId]);
     currentUser = userFoundInCache[0];
+=======
+    let currentUser: InterfaceUser | null;
+    const userFoundInCache = await findUserInCache([context.userId]);
+    currentUser = userFoundInCache[0];
+    if (currentUser === null) {
+      currentUser = await User.findOne({
+        _id: context.userId,
+      }).lean();
+      if (currentUser !== null) {
+        await cacheUsers([currentUser]);
+      }
+    }
+>>>>>>> main
 
     // If the user is not found in the cache, tries to find them in the database.
     if (currentUser === null) {
@@ -54,6 +68,7 @@ export const removeUserCustomData: MutationResolvers["removeUserCustomData"] =
         requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
         USER_NOT_FOUND_ERROR.CODE,
         USER_NOT_FOUND_ERROR.PARAM,
+<<<<<<< HEAD
       );
     }
 
@@ -86,6 +101,30 @@ export const removeUserCustomData: MutationResolvers["removeUserCustomData"] =
     }
 
     // Tries to find the specified organization in the database.
+=======
+      );
+    }
+    let currentUserAppProfile: InterfaceAppUserProfile | null;
+    const appUserProfileFoundInCache = await findAppUserProfileCache([
+      currentUser.appUserProfileId?.toString(),
+    ]);
+    currentUserAppProfile = appUserProfileFoundInCache[0];
+    if (currentUserAppProfile === null) {
+      currentUserAppProfile = await AppUserProfile.findOne({
+        userId: currentUser._id,
+      }).lean();
+      if (currentUserAppProfile !== null) {
+        await cacheAppUserProfile([currentUserAppProfile]);
+      }
+    }
+    if (!currentUserAppProfile) {
+      throw new errors.UnauthorizedError(
+        requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
+        USER_NOT_AUTHORIZED_ERROR.CODE,
+        USER_NOT_AUTHORIZED_ERROR.PARAM,
+      );
+    }
+>>>>>>> main
     const organization = await Organization.findOne({
       _id: organizationId,
     }).lean();
@@ -99,7 +138,10 @@ export const removeUserCustomData: MutationResolvers["removeUserCustomData"] =
       );
     }
 
+<<<<<<< HEAD
     // Checks if the current user is an admin for the organization or a super admin.
+=======
+>>>>>>> main
     const currentUserIsOrganizationAdmin = currentUserAppProfile.adminFor.some(
       (orgId) =>
         orgId && new Types.ObjectId(orgId?.toString()).equals(organization._id),

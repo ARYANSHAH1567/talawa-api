@@ -14,6 +14,7 @@ import { findAppUserProfileCache } from "../../services/AppUserProfileCache/find
 import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
+<<<<<<< HEAD
 /**
  * Updates an existing tag's name based on provided input, including validation and authorization checks.
  *
@@ -26,6 +27,9 @@ import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
  * @returns The updated tag with its new name.
  *
  */
+=======
+
+>>>>>>> main
 export const updateUserTag: MutationResolvers["updateUserTag"] = async (
   _parent,
   args,

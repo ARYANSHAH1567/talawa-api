@@ -29,7 +29,6 @@ beforeAll(async () => {
   vi.spyOn(requestContext, "translate").mockImplementation(
     (message) => message,
   );
-
   const temp = await createTestFundraisingCampaignPledge();
   testUser = temp[0];
   testFundraisingCampaign = temp[3];

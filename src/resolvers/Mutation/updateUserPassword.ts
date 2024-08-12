@@ -14,6 +14,7 @@ import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { deleteUserFromCache } from "../../services/UserCache/deleteUserFromCache";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
+<<<<<<< HEAD
 
 /**
  * Updates the password for the currently authenticated user.
@@ -35,6 +36,8 @@ import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
  *
  * @returns An object containing the updated user and their profile.
  */
+=======
+>>>>>>> main
 
 export const updateUserPassword: MutationResolvers["updateUserPassword"] =
   async (_parent, args, context) => {

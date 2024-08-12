@@ -22,6 +22,7 @@ import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
 import { uploadEncodedImage } from "../../utilities/encodedImageStorage/uploadEncodedImage";
 import { uploadEncodedVideo } from "../../utilities/encodedVideoStorage/uploadEncodedVideo";
+<<<<<<< HEAD
 /**
  * Updates an advertisement with new details, including handling media file uploads and validating input fields.
  *
@@ -34,11 +35,18 @@ import { uploadEncodedVideo } from "../../utilities/encodedVideoStorage/uploadEn
  * @returns An object containing the updated advertisement with all its fields.
  *
  */
+=======
+
+>>>>>>> main
 export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
   async (_parent, args, context) => {
     const { _id, ...otherFields } = args.input;
 
+<<<<<<< HEAD
     // Check if input is provided
+=======
+    //If there is no input
+>>>>>>> main
     if (Object.keys(otherFields).length === 0) {
       throw new errors.InputValidationError(
         requestContext.translate(INPUT_NOT_FOUND_ERROR.MESSAGE),
@@ -47,7 +55,11 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       );
     }
 
+<<<<<<< HEAD
     // Check for unintended null values in permitted fields
+=======
+    // Check for unintended null values in permitted fields, if all fields are permitted
+>>>>>>> main
     for (const fieldValue of Object.values(args.input)) {
       if (
         fieldValue === null ||
@@ -61,7 +73,10 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       }
     }
 
+<<<<<<< HEAD
     // Retrieve the current user from cache or database
+=======
+>>>>>>> main
     let currentUser: InterfaceUser | null;
     const userFoundInCache = await findUserInCache([context.userId]);
     currentUser = userFoundInCache[0];
@@ -74,7 +89,10 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       }
     }
 
+<<<<<<< HEAD
     // Check if the current user exists
+=======
+>>>>>>> main
     if (!currentUser) {
       throw new errors.NotFoundError(
         requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
@@ -83,7 +101,10 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       );
     }
 
+<<<<<<< HEAD
     // Retrieve the current user's app profile from cache or database
+=======
+>>>>>>> main
     let currentUserAppProfile: InterfaceAppUserProfile | null;
     const appUserProfileFoundInCache = await findAppUserProfileCache([
       currentUser.appUserProfileId?.toString(),
@@ -97,8 +118,11 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
         await cacheAppUserProfile([currentUserAppProfile]);
       }
     }
+<<<<<<< HEAD
 
     // Check if the user's app profile exists
+=======
+>>>>>>> main
     if (!currentUserAppProfile) {
       throw new errors.UnauthorizedError(
         requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
@@ -106,8 +130,11 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
         USER_NOT_AUTHORIZED_ERROR.PARAM,
       );
     }
+<<<<<<< HEAD
 
     // Retrieve the advertisement from the database
+=======
+>>>>>>> main
     const advertisement = await Advertisement.findOne({
       _id: _id,
     });
@@ -119,7 +146,10 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       );
     }
 
+<<<<<<< HEAD
     // Check if the user is authorized to update the advertisement
+=======
+>>>>>>> main
     const userIsOrganizationAdmin = currentUserAppProfile.adminFor.some(
       (organisation) =>
         organisation === advertisement.organizationId ||
@@ -137,7 +167,11 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
 
     const { startDate, endDate } = args.input;
 
+<<<<<<< HEAD
     // Validate startDate and endDate
+=======
+    //If startDate is less than or equal to current date
+>>>>>>> main
     if (
       startDate &&
       new Date(startDate) <= new Date(new Date().toDateString())
@@ -160,7 +194,10 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
 
     let uploadMediaFile = null;
 
+<<<<<<< HEAD
     // Handle media file upload
+=======
+>>>>>>> main
     if (args.input.mediaFile) {
       const dataUrlPrefix = "data:";
       if (args.input.mediaFile.startsWith(dataUrlPrefix + "image/")) {
@@ -172,12 +209,18 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       }
     }
 
+<<<<<<< HEAD
     // Prepare fields to update
+=======
+>>>>>>> main
     const fieldsToUpdate = args.input.mediaFile
       ? { ...args.input, mediaUrl: uploadMediaFile }
       : { ...args.input };
 
+<<<<<<< HEAD
     // Update the advertisement in the database
+=======
+>>>>>>> main
     const updatedAdvertisement = await Advertisement.findOneAndUpdate(
       {
         _id: _id,
@@ -190,7 +233,10 @@ export const updateAdvertisement: MutationResolvers["updateAdvertisement"] =
       },
     ).lean();
 
+<<<<<<< HEAD
     // Prepare and return the updated advertisement payload
+=======
+>>>>>>> main
     const updatedAdvertisementPayload = {
       _id: updatedAdvertisement?._id?.toString(), // Ensure _id is converted to String as per GraphQL schema
       name: updatedAdvertisement?.name,

@@ -4,7 +4,11 @@ import {
 } from "../../constants";
 import { errors, requestContext } from "../../libraries";
 import type { InterfaceUser } from "../../models";
+<<<<<<< HEAD
 import { AppUserProfile, FundraisingCampaign, User } from "../../models";
+=======
+import { FundraisingCampaign, User } from "../../models";
+>>>>>>> main
 import {
   FundraisingCampaignPledge,
   type InterfaceFundraisingCampaignPledges,
@@ -66,6 +70,7 @@ export const removeFundraisingCampaignPledge: MutationResolvers["removeFundraisi
       );
     }
 
+<<<<<<< HEAD
     // Update AppUserProfile for every pledger
     for (const userId of pledge.users) {
       const updatedUserProfile = await AppUserProfile.findOneAndUpdate(
@@ -97,6 +102,15 @@ export const removeFundraisingCampaignPledge: MutationResolvers["removeFundraisi
       { $pull: { pledges: args.id } },
     );
 
+=======
+    // Remove the pledge from the campaign.
+    for (const campaignId of pledge.campaigns) {
+      await FundraisingCampaign.updateOne(
+        { _id: campaignId?.toString() },
+        { $pull: { pledges: args.id } },
+      );
+    }
+>>>>>>> main
     // Remove the pledge.
     await FundraisingCampaignPledge.deleteOne({
       _id: args.id,

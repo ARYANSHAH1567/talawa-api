@@ -14,15 +14,21 @@ import {
   type InterfaceUser,
 } from "../../models";
 
+<<<<<<< HEAD
 import type { InterfaceFundraisingCampaign } from "../../models/FundraisingCampaign";
+=======
+>>>>>>> main
 import { FundraisingCampaign } from "../../models/FundraisingCampaign";
 import { cacheAppUserProfile } from "../../services/AppUserProfileCache/cacheAppUserProfile";
 import { findAppUserProfileCache } from "../../services/AppUserProfileCache/findAppUserProfileCache";
 import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
+<<<<<<< HEAD
 import type { InterfaceFundraisingCampaignPledges } from "../../models/FundraisingCampaignPledge";
 import { FundraisingCampaignPledge } from "../../models/FundraisingCampaignPledge";
+=======
+>>>>>>> main
 
 /**
  * This function enables to remove fund .
@@ -86,6 +92,7 @@ export const removeFund: MutationResolvers["removeFund"] = async (
 
   const fund = await Fund.findOne({
     _id: args.id,
+<<<<<<< HEAD
   })
     .populate({
       path: "campaigns",
@@ -94,6 +101,9 @@ export const removeFund: MutationResolvers["removeFund"] = async (
       },
     })
     .lean();
+=======
+  }).lean();
+>>>>>>> main
 
   // Checks whether fund exists.
   if (!fund) {
@@ -126,6 +136,7 @@ export const removeFund: MutationResolvers["removeFund"] = async (
     );
   }
 
+<<<<<<< HEAD
   const campaignsToDelete: Types.ObjectId[] = [];
   const pledgesToDelete: Types.ObjectId[] = [];
 
@@ -151,6 +162,15 @@ export const removeFund: MutationResolvers["removeFund"] = async (
     _id: { $in: campaignsToDelete },
   });
 
+=======
+  //deletes all the campaigns associated with the fund
+  for (const campaignId of fund.campaigns) {
+    await FundraisingCampaign.findByIdAndDelete({
+      _id: campaignId,
+    });
+  }
+
+>>>>>>> main
   //deletes the fund
   await Fund.deleteOne({
     _id: args.id,

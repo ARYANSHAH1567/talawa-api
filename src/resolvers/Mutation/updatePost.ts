@@ -106,7 +106,10 @@ export const updatePost: MutationResolvers["updatePost"] = async (
     );
   }
 
+<<<<<<< HEAD
   // Check if the user has the right to update the post
+=======
+>>>>>>> main
   const currentUserIsPostCreator = post.creatorId.equals(context.userId);
   const isSuperAdmin = currentUserAppProfile.isSuperAdmin;
   const isAdminOfPostOrganization = currentUserAppProfile?.adminFor.some(
@@ -139,6 +142,22 @@ export const updatePost: MutationResolvers["updatePost"] = async (
     args.data.videoUrl = await uploadEncodedVideo(
       args.data.videoUrl,
       post.videoUrl,
+<<<<<<< HEAD
+=======
+    );
+  }
+
+  // Check title and pinpost
+  if (args.data?.title && !post.pinned) {
+    throw new errors.InputValidationError(
+      requestContext.translate(POST_NEEDS_TO_BE_PINNED.MESSAGE),
+      POST_NEEDS_TO_BE_PINNED.CODE,
+    );
+  } else if (!args.data?.title && post.pinned) {
+    throw new errors.InputValidationError(
+      requestContext.translate(PLEASE_PROVIDE_TITLE.MESSAGE),
+      PLEASE_PROVIDE_TITLE.CODE,
+>>>>>>> main
     );
   }
 

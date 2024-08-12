@@ -42,7 +42,11 @@ export const togglePostPin: MutationResolvers["togglePostPin"] = async (
   args,
   context,
 ) => {
+<<<<<<< HEAD
   // Get the current user from the cache or database
+=======
+  // Get the current user
+>>>>>>> main
   let currentUser: InterfaceUser | null;
   const userFoundInCache = await findUserInCache([context.userId]);
   currentUser = userFoundInCache[0];
@@ -61,6 +65,7 @@ export const togglePostPin: MutationResolvers["togglePostPin"] = async (
       requestContext.translate(USER_NOT_FOUND_ERROR.MESSAGE),
       USER_NOT_FOUND_ERROR.CODE,
       USER_NOT_FOUND_ERROR.PARAM,
+<<<<<<< HEAD
     );
   }
 
@@ -89,6 +94,31 @@ export const togglePostPin: MutationResolvers["togglePostPin"] = async (
   }
 
   // Get the post from the cache or database
+=======
+    );
+  }
+  let currentUserAppProfile: InterfaceAppUserProfile | null;
+  const appUserProfileFoundInCache = await findAppUserProfileCache([
+    currentUser.appUserProfileId?.toString(),
+  ]);
+  currentUserAppProfile = appUserProfileFoundInCache[0];
+  if (currentUserAppProfile === null) {
+    currentUserAppProfile = await AppUserProfile.findOne({
+      userId: currentUser._id,
+    }).lean();
+    if (currentUserAppProfile !== null) {
+      await cacheAppUserProfile([currentUserAppProfile]);
+    }
+  }
+  if (!currentUserAppProfile) {
+    throw new errors.UnauthorizedError(
+      requestContext.translate(USER_NOT_AUTHORIZED_ERROR.MESSAGE),
+      USER_NOT_AUTHORIZED_ERROR.CODE,
+      USER_NOT_AUTHORIZED_ERROR.PARAM,
+    );
+  }
+  // Check if the post object exists
+>>>>>>> main
   let post: InterfacePost | null;
   const postFoundInCache = await findPostsInCache([args.id]);
   post = postFoundInCache[0];
@@ -111,7 +141,11 @@ export const togglePostPin: MutationResolvers["togglePostPin"] = async (
     );
   }
 
+<<<<<<< HEAD
   // Check if the user is authorized to pin or unpin the post
+=======
+  // Check if the current user is authorized to perform the operation
+>>>>>>> main
   const currentUserIsOrganizationAdmin = currentUserAppProfile.adminFor.some(
     (organizationId) =>
       organizationId &&
@@ -187,7 +221,10 @@ export const togglePostPin: MutationResolvers["togglePostPin"] = async (
 
     return updatedPost as InterfacePost;
   } else {
+<<<<<<< HEAD
     // Pin the post if it is not currently pinned
+=======
+>>>>>>> main
     if (!args.title) {
       throw new errors.InputValidationError(
         requestContext.translate(PLEASE_PROVIDE_TITLE.MESSAGE),
@@ -195,7 +232,10 @@ export const togglePostPin: MutationResolvers["togglePostPin"] = async (
       );
     }
 
+<<<<<<< HEAD
     // Validate the title length if provided
+=======
+>>>>>>> main
     if (args?.title) {
       const validationResultTitle = isValidString(args?.title, 256);
       if (!validationResultTitle.isLessThanMaxLength) {

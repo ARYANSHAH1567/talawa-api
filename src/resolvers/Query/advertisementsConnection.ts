@@ -13,6 +13,7 @@ import {
   type ParseGraphQLConnectionCursorResult,
 } from "../../utilities/graphQLConnection";
 
+<<<<<<< HEAD
 /**
  * Retrieves a paginated list of advertisements based on the provided connection arguments.
  *
@@ -25,6 +26,8 @@ import {
  * @returns A paginated connection object containing the advertisements, their total count, and the pagination information.
  *
  */
+=======
+>>>>>>> main
 export const advertisementsConnection: QueryResolvers["advertisementsConnection"] =
   async (_parent, args, context) => {
     const parseGraphQLConnectionArgumentsResult =
@@ -86,6 +89,7 @@ export const advertisementsConnection: QueryResolvers["advertisementsConnection"
     });
   };
 
+<<<<<<< HEAD
 /**
  * Type representing the parsed cursor used in the connection resolver.
  */
@@ -102,6 +106,17 @@ type ParsedCursor = string;
  *
  * @returns An object containing a flag indicating success or failure, the parsed cursor, and any errors encountered during validation.
  */
+=======
+/*
+This is typescript type of the parsed cursor for this connection resolver.
+*/
+type ParsedCursor = string;
+
+/*
+This function is used to validate and transform the cursor passed to this connnection
+resolver.
+*/
+>>>>>>> main
 export const parseCursor = async ({
   cursorValue,
   cursorName,

@@ -18,6 +18,7 @@ import { findAppUserProfileCache } from "../../services/AppUserProfileCache/find
 import { cacheUsers } from "../../services/UserCache/cacheUser";
 import { findUserInCache } from "../../services/UserCache/findUserInCache";
 import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
+<<<<<<< HEAD
 
 /**
  * Unassigns a tag from a user in an organization.
@@ -43,6 +44,8 @@ import type { MutationResolvers } from "../../types/generatedGraphQLTypes";
  *
  * @returns  The user from whom the tag was unassigned.
  */
+=======
+>>>>>>> main
 
 export const unassignUserTag: MutationResolvers["unassignUserTag"] = async (
   _parent,
